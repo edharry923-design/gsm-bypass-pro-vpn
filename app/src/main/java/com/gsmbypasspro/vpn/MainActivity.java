@@ -3,11 +3,13 @@ package com.gsmbypasspro.vpn;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.graphics.Color;
+import android.os.Build;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends Activity {
 
@@ -18,29 +20,33 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView tvStatus = findViewById(R.id.tvStatus);
         final Button btnConnect = findViewById(R.id.btnConnect);
-        final Spinner spinnerServers = findViewById(R.id.spinnerServers);
+        final TextView tvLogs = findViewById(R.id.tvLogs);
+        final EditText etTarget = findViewById(R.id.etTarget);
+        final EditText etPayload = findViewById(R.id.etPayload);
 
-        // Liste des serveurs VPN disponibles
-        String[] servers = {"Serveur FR - VIP 1", "Serveur DE - Fast", "Serveur US - Unlimited"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, servers);
-        spinnerServers.setAdapter(adapter);
+        // Affichage des infos de l'appareil dans les logs au démarrage
+        String deviceModel = Build.MODEL;
+        String androidVersion = Build.VERSION.RELEASE;
+        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        
+        tvLogs.setText("[" + currentTime + "] Running on " + deviceModel + ", Android " + androidVersion + ".\n[GSM BYPASS-PRO] Prêt à l'injection.");
 
         btnConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String timeNow = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
                 if (!isConnected) {
-                    tvStatus.setText("Statut : Connecté");
-                    tvStatus.setTextColor(Color.GREEN);
-                    btnConnect.setText("SÉ DÉCONNECTER");
-                    btnConnect.setBackgroundColor(Color.RED);
+                    tvLogs.append("\n[" + timeNow + "] Connexion en cours vers le serveur...");
+                    tvLogs.append("\n[" + timeNow + "] Injection du Payload réussie !");
+                    tvLogs.append("\n[" + timeNow + "] Tunnel actif - Vitesse ultra-rapide 🚀");
+                    btnConnect.setText("DISCONNECT");
+                    btnConnect.setBackgroundColor(0xFFF44336); // Rouge
                     isConnected = true;
                 } else {
-                    tvStatus.setText("Statut : Déconnecté");
-                    tvStatus.setTextColor(Color.RED);
-                    btnConnect.setText("SE CONNECTER");
-                    btnConnect.setBackgroundColor(Color.parseColor("#0088CC"));
+                    tvLogs.append("\n[" + timeNow + "] Déconnexion du tunnel.");
+                    btnConnect.setText("CONNECT");
+                    btnConnect.setBackgroundColor(0xFF9C27B0); // Violet
                     isConnected = false;
                 }
             }

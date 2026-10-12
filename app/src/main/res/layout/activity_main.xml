@@ -3,44 +3,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_horizontal"
+    android:padding="16dp"
     android:background="#121212">
 
+    <!-- Barre supérieure / Titre -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="GSM BYPASS-PRO VPN"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
-        android:layout_marginBottom="32dp" />
+        android:layout_marginBottom="12dp" />
 
+    <!-- Champ Target (SSH / Serveur) -->
     <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Statut : Déconnecté"
-        android:textSize="16sp"
-        android:textColor="#FF5555"
-        android:layout_marginBottom="24dp" />
-
-    <Spinner
-        android:id="@+id/spinnerServers"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
-        android:background="#1E1E1E" />
+        android:layout_height="wrap_content"
+        android:text="target"
+        android:textColor="#AAAAAA"
+        android:textSize="12sp"
+        android:layout_marginBottom="2dp" />
 
+    <EditText
+        android:id="@+id/etTarget"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:text="localhost:22@username:password"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:background="#1E1E1E"
+        android:padding="8dp"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Champ Payload -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="payload"
+        android:textColor="#AAAAAA"
+        android:textSize="12sp"
+        android:layout_marginBottom="2dp" />
+
+    <EditText
+        android:id="@+id/etPayload"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="[method] [host_port] [protocol][crlf]Host: [host][crlf]Service: SSH[crlf]Mode: Bypass[crlf][crlf]"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:background="#1E1E1E"
+        android:padding="8dp"
+        android:gravity="top"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Bouton de Connexion violet/bleu style pro -->
     <Button
         android:id="@+id/btnConnect"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="SE CONNECTER"
-        android:textSize="16sp"
+        android:layout_height="50dp"
+        android:text="CONNECT"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
-        android:background="#0088CC"
-        android:layout_marginTop="16dp" />
+        android:backgroundTint="#9C27B0"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Console de logs en temps réel -->
+    <TextView
+        android:id="@+id/tvLogs"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="[15:30:00] Initialisation du moteur Tunnel...\n[15:30:01] Prêt pour la connexion haut débit."
+        android:textColor="#00FF00"
+        android:textSize="11sp"
+        android:background="#0A0A0A"
+        android:padding="10sp"
+        android:fontFamily="monospace" />
 
 </LinearLayout>
