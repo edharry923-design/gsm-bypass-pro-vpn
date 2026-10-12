@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="24dp"
     android:gravity="center_horizontal"
-    android:backgroundColor="#121212">
+    android:background="#121212">
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#0088CC"
+        android:background="#0088CC"
         android:layout_marginTop="16dp" />
 
 </LinearLayout>
