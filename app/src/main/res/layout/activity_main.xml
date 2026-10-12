@@ -1,85 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="#121212">
 
-    <!-- Barre supérieure / Titre -->
-    <TextView
+    <!-- Contenu Principal -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="GSM BYPASS-PRO VPN"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="12dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="12dp">
 
-    <!-- Champ Target (SSH / Serveur) -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="target"
-        android:textColor="#AAAAAA"
-        android:textSize="12sp"
-        android:layout_marginBottom="2dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GSM BYPASS-PRO VPN • Pro"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
-    <EditText
-        android:id="@+id/etTarget"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:text="localhost:22@username:password"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="target server / host" android:textColor="#888888" android:textSize="10sp"/>
+        <EditText android:id="@+id/etTarget" android:layout_width="match_parent" android:layout_height="38dp" android:text="edgargsm.duckdns.org:443" android:textColor="#FFFFFF" android:textSize="12sp" android:background="#1E1E1E" android:padding="6dp" android:layout_marginBottom="6dp"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="payload / configuration" android:textColor="#888888" android:textSize="10sp"/>
+        <EditText android:id="@+id/etPayload" android:layout_width="match_parent" android:layout_height="65dp" android:text="CONNECT [host]:[port] HTTP/1.1[crlf]Host: [host][crlf]" android:textColor="#FFFFFF" android:textSize="11sp" android:background="#1E1E1E" android:padding="6dp" android:gravity="top" android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btnConnect"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="CONNECT"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:backgroundTint="#BA68C8"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/tvLogs"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="[12:00:00] Système initialisé.\n[12:00:01] Prêt pour l'injection des protocoles VLess/Trojan/DNS."
+            android:textColor="#00FF00"
+            android:textSize="11sp"
+            android:background="#0A0A0A"
+            android:padding="8dp"
+            android:fontFamily="monospace" />
+
+    </LinearLayout>
+
+    <!-- Menu Latéral (Navigation Drawer) -->
+    <LinearLayout
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
         android:background="#1E1E1E"
-        android:padding="8dp"
-        android:layout_marginBottom="10dp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- Champ Payload -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="payload"
-        android:textColor="#AAAAAA"
-        android:textSize="12sp"
-        android:layout_marginBottom="2dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GSM BYPASS-PRO"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp" />
 
-    <EditText
-        android:id="@+id/etPayload"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:text="[method] [host_port] [protocol][crlf]Host: [host][crlf]Service: SSH[crlf]Mode: Bypass[crlf][crlf]"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        android:background="#1E1E1E"
-        android:padding="8dp"
-        android:gravity="top"
-        android:layout_marginBottom="16dp" />
+        <TextView android:id="@+id/menuIp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="👁 Vérifier l'IP" android:textColor="#DDDDDD" android:textSize="14sp" android:paddingVertical="10dp"/>
+        <TextView android:id="@+id/menuSettings" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="⚙ Paramètres (DNS / Ports)" android:textColor="#DDDDDD" android:textSize="14sp" android:paddingVertical="10dp"/>
+        <TextView android:id="@+id/menuServers" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🌐 Serveurs &amp; Payloads" android:textColor="#DDDDDD" android:textSize="14sp" android:paddingVertical="10dp"/>
+        <TextView android:id="@+id/menuAbout" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ℹ À propos &amp; Support" android:textColor="#DDDDDD" android:textSize="14sp" android:paddingVertical="10dp"/>
 
-    <!-- Bouton de Connexion violet/bleu style pro -->
-    <Button
-        android:id="@+id/btnConnect"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="CONNECT"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#9C27B0"
-        android:layout_marginBottom="16dp" />
+    </LinearLayout>
 
-    <!-- Console de logs en temps réel -->
-    <TextView
-        android:id="@+id/tvLogs"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="[15:30:00] Initialisation du moteur Tunnel...\n[15:30:01] Prêt pour la connexion haut débit."
-        android:textColor="#00FF00"
-        android:textSize="11sp"
-        android:background="#0A0A0A"
-        android:padding="10sp"
-        android:fontFamily="monospace" />
-
-</LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.os.Build;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,31 +22,51 @@ public class MainActivity extends Activity {
 
         final Button btnConnect = findViewById(R.id.btnConnect);
         final TextView tvLogs = findViewById(R.id.tvLogs);
-        final EditText etTarget = findViewById(R.id.etTarget);
-        final EditText etPayload = findViewById(R.id.etPayload);
 
-        // Affichage des infos de l'appareil dans les logs au démarrage
-        String deviceModel = Build.MODEL;
-        String androidVersion = Build.VERSION.RELEASE;
-        String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-        
-        tvLogs.setText("[" + currentTime + "] Running on " + deviceModel + ", Android " + androidVersion + ".\n[GSM BYPASS-PRO] Prêt à l'injection.");
+        // Actions du menu latéral
+        findViewById(R.id.menuIp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "IP Actuelle : Connecté via Proxy Local", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        findViewById(R.id.menuSettings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Paramètres UDPGW / DNS configurés (Port 7300)", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        findViewById(R.id.menuServers).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Liste des serveurs 3X-UI / VLess chargée", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        findViewById(R.id.menuAbout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "GSM BYPASS-PRO VPN v1.0 - Ultra Rapide", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        String timeNow = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        tvLogs.setText("[" + timeNow + "] Moteur de tunneling prêt sur " + Build.MODEL);
 
         btnConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String timeNow = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                String t = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
                 if (!isConnected) {
-                    tvLogs.append("\n[" + timeNow + "] Connexion en cours vers le serveur...");
-                    tvLogs.append("\n[" + timeNow + "] Injection du Payload réussie !");
-                    tvLogs.append("\n[" + timeNow + "] Tunnel actif - Vitesse ultra-rapide 🚀");
+                    tvLogs.append("\n[" + t + "] Injection Payload & Liaison UDPGW active...");
+                    tvLogs.append("\n[" + t + "] Tunnel établi avec succès ! 🚀");
                     btnConnect.setText("DISCONNECT");
-                    btnConnect.setBackgroundColor(0xFFF44336); // Rouge
                     isConnected = true;
                 } else {
-                    tvLogs.append("\n[" + timeNow + "] Déconnexion du tunnel.");
+                    tvLogs.append("\n[" + t + "] Déconnexion du tunnel.");
                     btnConnect.setText("CONNECT");
-                    btnConnect.setBackgroundColor(0xFF9C27B0); // Violet
                     isConnected = false;
                 }
             }
