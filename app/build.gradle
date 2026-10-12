@@ -3,14 +3,20 @@ plugins {
 }
 
 android {
-    namespace 'com.gsmbypass.vpn'
-    compileSdk 34
+    namespace 'com.gsmbypasspro.vpn'
+    compileSdk 33
 
     defaultConfig {
-        applicationId "com.gsmbypass.vpn"
-        minSdk 24
-        targetSdk 34
+        applicationId "com.gsmbypasspro.vpn"
+        minSdk 21
+        targetSdk 33
         versionCode 1
         versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
     }
 }
