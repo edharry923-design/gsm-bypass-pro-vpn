@@ -1,5 +1,6 @@
 package com.gsmbypasspro.vpn;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.TextView;
@@ -24,16 +25,28 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void showThemeDialog() {
-        String[] themes = {"System", "Light", "Dark"};
+        String[] themes = {"Système", "Clair", "Sombre"};
+        SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        int currentTheme = prefs.getInt("theme_mode", 2); // 2 par défaut (Dark)
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Theme");
-        builder.setSingleChoiceItems(themes, 2, (dialog, which) -> {
-            if (which == 0) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-            else if (which == 1) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            else if (which == 2) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        builder.setTitle("Choisir le Thème");
+        builder.setSingleChoiceItems(themes, currentTheme, (dialog, which) -> {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("theme_mode", which);
+            editor.apply();
+
+            if (which == 0) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+            } else if (which == 1) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
             dialog.dismiss();
+            recreate();
         });
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton("Annuler", null);
         builder.create().show();
     }
 }
