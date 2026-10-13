@@ -23,7 +23,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp" />
 
-        <!-- Choix du Protocole / Tunnel Type -->
+        <!-- Choix du Protocole -->
         <Spinner
             android:id="@+id/spinnerProtocol"
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
             android:background="#1E1E1E"
             android:layout_marginBottom="8dp" />
 
-        <!-- Champs de configuration dynamique -->
+        <!-- Champs de configuration -->
         <EditText
             android:id="@+id/etTargetServer"
             android:layout_width="match_parent"
@@ -63,7 +63,7 @@
             android:background="#1E1E1E"
             android:textColor="#00E676"
             android:textColorHint="#888888"
-            android:hint="Payload / Configuration custom..."
+            android:hint="Payload custom..."
             android:padding="8dp"
             android:textSize="12sp"
             android:gravity="top"
@@ -135,7 +135,7 @@
             android:id="@+id/menuSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="⚙️ Paramètres & HWID"
+            android:text="⚙️ Paramètres &amp; HWID"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:padding="12dp" />
