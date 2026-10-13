@@ -1,30 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F5F5F5">
+    android:background="#121212"
+    android:padding="16dp">
 
-    <EditText
-        android:id="@+id/etConfigName"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#FFFFFF"
-        android:hint="Nom du fichier de configuration"
-        android:padding="12dp"
-        android:textColor="#000000"
-        android:textColorHint="#888888"
-        android:textSize="14sp"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnSaveConfig"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:backgroundTint="#00838F"
-        android:text="Enregistrer et verrouiller (.gsm)"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Générateur de Configuration (.gsm)"
+            android:textColor="#B388FF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/etConfigName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#1E1E1E"
+            android:hint="Nom de la configuration (ex: VIP_Mtn_2026)"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#777777"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/etHwidLock"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#1E1E1E"
+            android:hint="Verrouiller par HWID (Optionnel)"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#777777"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/etExpiryDate"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#1E1E1E"
+            android:hint="Date d'expiration (JJ/MM/AAAA)"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#777777"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp" />
+
+        <CheckBox
+            android:id="@+id/cbLockConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Empêcher l'édition (Verrouiller payload)"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnSaveConfig"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:backgroundTint="#B388FF"
+            android:text="Générer et Exporter le fichier"
+            android:textColor="#121212"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>
