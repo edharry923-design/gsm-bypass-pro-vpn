@@ -11,40 +11,62 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
-        android:gravity="center">
+        android:gravity="center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="GSM BYPASS-PRO VPN"
             android:textColor="#00E676"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp" />
 
+        <!-- Choix du Protocole -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SÉLECTION DU PROTOCOLE :"
+            android:textColor="#AAAAAA"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/spinnerProtocol"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#1E1E1E"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Console de Logs -->
         <TextView
             android:id="@+id/tvLogs"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:background="#1E1E1E"
             android:textColor="#00E676"
-            android:padding="8dp"
+            android:padding="12dp"
             android:textSize="12sp"
-            android:text="[System] Prêt à la connexion...\n"
+            android:fontFamily="monospace"
             android:scrollbars="vertical"
             android:layout_marginBottom="16dp" />
 
+        <!-- Bouton de Connexion -->
         <Button
             android:id="@+id/btnConnect"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:text="CONNECTER"
+            android:textStyle="bold"
             android:backgroundTint="#00E676"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:layout_marginBottom="16dp" />
 
     </LinearLayout>
 
-    <!-- Menu Latéral (NavigationView / Drawer) -->
+    <!-- Menu Latéral -->
     <LinearLayout
         android:layout_width="280dp"
         android:layout_height="match_parent"
@@ -56,8 +78,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MENU PRO"
-            android:textColor="#FFFFFF"
+            android:text="MENU GSM PRO"
+            android:textColor="#00E676"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp" />
@@ -66,36 +88,36 @@
             android:id="@+id/menuIp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Configuration IP"
-            android:textColor="#CCCCCC"
-            android:textSize="16sp"
+            android:text="🌐 Configuration IP / Payload"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
             android:padding="12dp" />
 
         <TextView
             android:id="@+id/menuServers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Serveurs VLess/VMess"
-            android:textColor="#CCCCCC"
-            android:textSize="16sp"
+            android:text="🔑 Importer Config (.gsm)"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
             android:padding="12dp" />
 
         <TextView
             android:id="@+id/menuSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Paramètres"
-            android:textColor="#CCCCCC"
-            android:textSize="16sp"
+            android:text="⚙️ Paramètres Tunnel"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
             android:padding="12dp" />
 
         <TextView
             android:id="@+id/menuAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="À propos"
-            android:textColor="#CCCCCC"
-            android:textSize="16sp"
+            android:text="ℹ️ À propos & Abonnement"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
             android:padding="12dp" />
 
     </LinearLayout>
