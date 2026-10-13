@@ -10,34 +10,75 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center_horizontal">
+        android:padding="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="GSM BYPASS-PRO VPN"
             android:textColor="#00E676"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp" />
 
-        <!-- Choix du Protocole -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SÉLECTION DU PROTOCOLE :"
-            android:textColor="#AAAAAA"
-            android:textSize="12sp"
-            android:layout_marginBottom="4dp" />
-
+        <!-- Choix du Protocole / Tunnel Type -->
         <Spinner
             android:id="@+id/spinnerProtocol"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="#1E1E1E"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="8dp" />
+
+        <!-- Champs de configuration dynamique -->
+        <EditText
+            android:id="@+id/etTargetServer"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="#1E1E1E"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888"
+            android:hint="edgargsm.duckdns.org:443"
+            android:padding="8dp"
+            android:textSize="13sp"
+            android:layout_marginBottom="6dp" />
+
+        <EditText
+            android:id="@+id/etUuid"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="#1E1E1E"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888"
+            android:hint="UUID / Clé d'authentification"
+            android:padding="8dp"
+            android:textSize="13sp"
+            android:layout_marginBottom="6dp" />
+
+        <EditText
+            android:id="@+id/etPayload"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="#1E1E1E"
+            android:textColor="#00E676"
+            android:textColorHint="#888888"
+            android:hint="Payload / Configuration custom..."
+            android:padding="8dp"
+            android:textSize="12sp"
+            android:gravity="top"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Bouton de Connexion -->
+        <Button
+            android:id="@+id/btnConnect"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="CONNECT"
+            android:textStyle="bold"
+            android:backgroundTint="#00E676"
+            android:textColor="#000000"
+            android:layout_marginBottom="8dp" />
 
         <!-- Console de Logs -->
         <TextView
@@ -45,24 +86,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#1E1E1E"
+            android:background="#1A1A1A"
             android:textColor="#00E676"
-            android:padding="12dp"
-            android:textSize="12sp"
+            android:padding="8dp"
+            android:textSize="11sp"
             android:fontFamily="monospace"
-            android:scrollbars="vertical"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Bouton de Connexion -->
-        <Button
-            android:id="@+id/btnConnect"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="CONNECTER"
-            android:textStyle="bold"
-            android:backgroundTint="#00E676"
-            android:textColor="#000000"
-            android:layout_marginBottom="16dp" />
+            android:scrollbars="vertical" />
 
     </LinearLayout>
 
@@ -78,7 +107,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MENU GSM PRO"
+            android:text="MENU PRO"
             android:textColor="#00E676"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -88,7 +117,7 @@
             android:id="@+id/menuIp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🌐 Configuration IP / Payload"
+            android:text="🌐 Configuration IP"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:padding="12dp" />
@@ -97,7 +126,7 @@
             android:id="@+id/menuServers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🔑 Importer Config (.gsm)"
+            android:text="🔑 VLess Config (.gsm)"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:padding="12dp" />
@@ -106,7 +135,7 @@
             android:id="@+id/menuSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="⚙️ Paramètres Tunnel"
+            android:text="⚙️ Paramètres & HWID"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:padding="12dp" />
@@ -115,7 +144,7 @@
             android:id="@+id/menuAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ℹ️ À propos & Abonnement"
+            android:text="ℹ️ À propos"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:padding="12dp" />
