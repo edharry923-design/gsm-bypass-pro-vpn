@@ -38,11 +38,13 @@ public class MainActivity extends AppCompatActivity {
         etUuid.setText("1f6b2a28-a0ab-4100-b7bc-8dd30710ea6c");
         etPayload.setText("CONNECT [host]:[port] HTTP/1.1[crlf]Host: edgargsm.duckdns.org[crlf]");
 
-        appendLog("[11:58:24] Running on Infinix X6835B, Android 13. Prêt.");
+        appendLog("[System] Running on Infinix X6835B, Android 13. Prêt.");
 
         btnConnect.setOnClickListener(v -> toggleConnection());
 
-        findViewById(R.id.menuServers).setOnClickListener(v -> Toast.Text(this, "Import .gsm actif", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.menuServers).setOnClickListener(v -> 
+            Toast.makeText(this, "Import .gsm actif", Toast.LENGTH_SHORT).show()
+        );
     }
 
     private void toggleConnection() {
