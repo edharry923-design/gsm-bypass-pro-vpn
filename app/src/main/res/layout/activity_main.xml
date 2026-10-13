@@ -3,71 +3,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F5F5F5">
+    android:background="#121212"
+    android:padding="12dp">
 
-    <Spinner
-        android:id="@+id/spinnerProtocol"
+    <!-- Carte supérieure : Paramètres et Champs de configuration -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#FFFFFF"
-        android:layout_marginBottom="12dp" />
+        android:layout_height="wrap_content"
+        android:background="#1E1E1E"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp">
 
-    <EditText
-        android:id="@+id/etTargetServer"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#FFFFFF"
-        android:hint="Serveur cible : Port"
-        android:padding="10dp"
-        android:textColor="#000000"
-        android:textColorHint="#888888"
-        android:layout_marginBottom="8dp" />
+        <!-- Ligne d'état (Protocole • Mode • Routage) -->
+        <TextView
+            android:id="@+id/tvProtocolStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SSH • Performance Mode • Direct -> Target"
+            android:textColor="#AAAAAA"
+            android:textSize="12sp"
+            android:layout_marginBottom="8dp" />
 
-    <EditText
-        android:id="@+id/etUuid"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#FFFFFF"
-        android:hint="UUID / Mot de passe / Utilisateur"
-        android:padding="10dp"
-        android:textColor="#000000"
-        android:textColorHint="#888888"
-        android:layout_marginBottom="8dp" />
+        <!-- Champ Target -->
+        <EditText
+            android:id="@+id/etTargetServer"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:hint="target"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#666666"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp" />
 
-    <EditText
-        android:id="@+id/etPayload"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#FFFFFF"
-        android:hint="Payload / SNI / Chemin WebSocket"
-        android:padding="10dp"
-        android:textColor="#000000"
-        android:textColorHint="#888888"
-        android:layout_marginBottom="16dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#333333"
+            android:layout_marginBottom="8dp" />
 
+        <!-- Champ Payload -->
+        <EditText
+            android:id="@+id/etPayload"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:hint="payload"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#666666"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!-- Bouton CONNECT couleur Lavande / Violet -->
     <Button
         android:id="@+id/btnConnect"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:backgroundTint="#00838F"
-        android:text="Démarrer"
-        android:textColor="#FFFFFF"
+        android:layout_height="48dp"
+        android:backgroundTint="#B388FF"
+        android:text="CONNECT"
+        android:textColor="#121212"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:textSize="15sp"
+        android:layout_marginBottom="12dp" />
 
+    <!-- Console de Logs (Terminal en direct avec infos de l'appareil) -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#1E1E1E"
+        android:background="#181818"
         android:padding="8dp">
         <TextView
             android:id="@+id/tvLogs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="[System] Prêt...\n"
-            android:textColor="#00E676"
-            android:textSize="12sp"
+            android:textColor="#CCCCCC"
+            android:textSize="11sp"
             android:fontFamily="monospace" />
     </ScrollView>
 
