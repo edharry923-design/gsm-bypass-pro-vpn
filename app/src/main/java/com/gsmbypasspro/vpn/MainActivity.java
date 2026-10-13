@@ -1,7 +1,7 @@
 package com.gsmbypasspro.vpn;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinnerProtocol;
     private EditText etTargetServer, etUuid, etPayload;
     private boolean isConnected = false;
-    private boolean isDarkMode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         etUuid.setText("1f6b2a28-a0ab-4100-b7bc-8dd30710ea6c");
         etPayload.setText("CONNECT [host]:[port] HTTP/1.1[crlf]Host: edgargsm.duckdns.org[crlf]");
 
-        appendLog("[System] GSM BYPASS-PRO VPN initialisé.");
+        appendLog("[System] GSM BYPASS-PRO VPN prêt.");
         btnConnect.setOnClickListener(v -> toggleConnection());
     }
 
@@ -56,41 +55,52 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_hwid) {
-            String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-            showPopup("HWID (ID de l'appareil) :\n" + androidId);
-            appendLog("[HWID] Vérification : " + androidId);
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
-        } else if (id == R.id.action_import_export) {
-            showPopup("Gestionnaire .gsm :\nImportation / Exportation de configuration active.");
-            appendLog("[Config] Ouverture de l'explorateur .gsm...");
+        } else if (id == R.id.action_about) {
+            showAboutDialog();
             return true;
-        } else if (id == R.id.action_expiry) {
-            showPopup("Statut de l'abonnement :\nValidité : Illimitée / Fichier .gsm actif.");
-            appendLog("[License] Configuration valide jusqu'au 31/12/2026.");
+        } else if (id == R.id.action_import_clipboard) {
+            appendLog("[Config] Importation depuis le presse-papier...");
+            showToast("Imported from Clipboard");
             return true;
-        } else if (id == R.id.action_theme) {
-            toggleTheme();
+        } else if (id == R.id.action_import_file) {
+            appendLog("[Config] Ouverture du sélecteur de fichier .gsm...");
+            showToast("Import File (.gsm)");
+            return true;
+        } else if (id == R.id.action_export_file) {
+            appendLog("[Config] Exportation vers un fichier .gsm...");
+            showToast("Export File (.gsm)");
+            return true;
+        } else if (id == R.id.type_vless) {
+            spinnerProtocol.setSelection(0);
+            appendLog("[Mode] Protocole changé : VLess");
+            return true;
+        } else if (id == R.id.type_vmess) {
+            spinnerProtocol.setSelection(1);
+            appendLog("[Mode] Protocole changé : VMess");
+            return true;
+        } else if (id == R.id.type_ssh) {
+            spinnerProtocol.setSelection(3);
+            appendLog("[Mode] Protocole changé : SSH");
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void toggleTheme() {
-        isDarkMode = !isDarkMode;
-        if (isDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            Toast.makeText(this, "Mode Sombre activé", Toast.LENGTH_SHORT).show();
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            Toast.makeText(this, "Mode Clair activé", Toast.LENGTH_SHORT).show();
-        }
+    private void showAboutDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("About")
+                .setMessage("GSM BYPASS-PRO VPN v1.0\n\nCopyright (c) 2026 GSM BY-PASS PRO.\nAll rights reserved.")
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     private void toggleConnection() {
         if (!isConnected) {
-            appendLog("[Tunnel] Connexion via " + etTargetServer.getText().toString() + "...");
+            appendLog("[Tunnel] Connexion vers " + etTargetServer.getText().toString() + "...");
             appendLog("[Success] Tunnel établi avec succès ! 🚀");
             btnConnect.setText("DISCONNECT");
             isConnected = true;
@@ -101,11 +111,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showPopup(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
     private void appendLog(String msg) {
         tvLogs.append(msg + "\n");
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }
