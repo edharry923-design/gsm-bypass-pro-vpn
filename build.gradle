@@ -1,4 +1,7 @@
-// Fichier de configuration racine propre pour Gradle 9
+plugins {
+    id 'com.android.application' version '7.4.2' apply false
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
