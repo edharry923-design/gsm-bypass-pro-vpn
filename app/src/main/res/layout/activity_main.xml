@@ -1,142 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawerLayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
     android:background="#121212">
 
-    <!-- Écran Principal -->
-    <ScrollView
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GSM BYPASS-PRO VPN"
+        android:textColor="#00E676"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btnConnect"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="12dp">
+        android:layout_height="wrap_content"
+        android:text="CONNECTER"
+        android:backgroundTint="#00E676"
+        android:textColor="#000000" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="VLess • Websocket SSL/TLS • Mux"
-                android:textColor="#AAAAAA"
-                android:textSize="11sp"
-                android:layout_marginBottom="8dp" />
-
-            <!-- Target Server -->
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="target server" android:textColor="#888888" android:textSize="10sp"/>
-            <EditText android:id="@+id/etTarget" android:layout_width="match_parent" android:layout_height="40dp" android:text="edgargsm.duckdns.org:443" android:textColor="#FFFFFF" android:textSize="13sp" android:background="#1E1E1E" android:padding="6dp" android:layout_marginBottom="6dp"/>
-
-            <!-- UUID -->
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="uuid" android:textColor="#888888" android:textSize="10sp"/>
-            <EditText android:id="@+id/etUuid" android:layout_width="match_parent" android:layout_height="40dp" android:text="1f6b2a28-a0ab-4100-b7bc-..." android:textColor="#FFFFFF" android:textSize="13sp" android:background="#1E1E1E" android:padding="6dp" android:layout_marginBottom="6dp"/>
-
-            <!-- Path -->
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="path" android:textColor="#888888" android:textSize="10sp"/>
-            <EditText android:id="@+id/etPath" android:layout_width="match_parent" android:layout_height="40dp" android:text="/" android:textColor="#FFFFFF" android:textSize="13sp" android:background="#1E1E1E" android:padding="6dp" android:layout_marginBottom="6dp"/>
-
-            <!-- SNI -->
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="server name indication" android:textColor="#888888" android:textSize="10sp"/>
-            <EditText android:id="@+id/etSni" android:layout_width="match_parent" android:layout_height="40dp" android:text="edgargsm.duckdns.org" android:textColor="#FFFFFF" android:textSize="13sp" android:background="#1E1E1E" android:padding="6dp" android:layout_marginBottom="6dp"/>
-
-            <!-- Header Host -->
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="header host" android:textColor="#888888" android:textSize="10sp"/>
-            <EditText android:id="@+id/etHeaderHost" android:layout_width="match_parent" android:layout_height="40dp" android:text="edgargsm.duckdns.org" android:textColor="#FFFFFF" android:textSize="13sp" android:background="#1E1E1E" android:padding="6dp" android:layout_marginBottom="6dp"/>
-
-            <!-- Proxy -->
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="proxy" android:textColor="#888888" android:textSize="10sp"/>
-            <EditText android:id="@+id/etProxy" android:layout_width="match_parent" android:layout_height="40dp" android:text="157.240.9.39:8080" android:textColor="#FFFFFF" android:textSize="13sp" android:background="#1E1E1E" android:padding="6dp" android:layout_marginBottom="6dp"/>
-
-            <!-- Payload -->
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="payload" android:textColor="#888888" android:textSize="10sp"/>
-            <EditText android:id="@+id/etPayload" android:layout_width="match_parent" android:layout_height="70dp" android:text="CONNECT [host]:[port] HTTP/1.1[crlf]Host: [host][crlf]" android:textColor="#FFFFFF" android:textSize="11sp" android:background="#1E1E1E" android:padding="6dp" android:gravity="top" android:layout_marginBottom="12dp"/>
-
-            <!-- Bouton CONNECT -->
-            <Button
-                android:id="@+id/btnConnect"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="CONNECT"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:backgroundTint="#BA68C8"
-                android:layout_marginBottom="12dp" />
-
-            <!-- Console de Logs -->
-            <TextView
-                android:id="@+id/tvLogs"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:text="[12:00:00] GSM BYPASS-PRO VLess Engine Prêt.\n[12:00:01] En attente de lancement..."
-                android:textColor="#00FF00"
-                android:textSize="11sp"
-                android:background="#0A0A0A"
-                android:padding="8dp"
-                android:fontFamily="monospace" />
-
-        </LinearLayout>
-    </ScrollView>
-
-    <!-- Menu Latéral avec Profil et Options complètes -->
-    <LinearLayout
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="#1E1E1E"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- En-tête Profil / Logo de la marque -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="16dp"
-            android:paddingBottom="12dp"
-            android:background="#222222">
-
-            <ImageView
-                android:id="@+id/imgProfile"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@mipmap/ic_launcher"
-                android:scaleType="centerCrop"
-                android:layout_marginRight="10dp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="GSM BYPASS-PRO"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Admin / Pro VIP"
-                    android:textColor="#00FF00"
-                    android:textSize="11sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#333333" android:layout_marginBottom="10dp"/>
-
-        <TextView android:id="@+id/menuConfig" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📁 Config (New / Import / Export)" android:textColor="#DDDDDD" android:textSize="13sp" android:paddingVertical="8dp"/>
-        <TextView android:id="@+id/menuTunnelType" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="⚡ Tunnel Type (VLess/VMess/Trojan)" android:textColor="#DDDDDD" android:textSize="13sp" android:paddingVertical="8dp"/>
-        <TextView android:id="@+id/menuInject" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="⚙ Inject Config &amp; Payload" android:textColor="#DDDDDD" android:textSize="13sp" android:paddingVertical="8dp"/>
-        <TextView android:id="@+id/menuCommunity" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="💬 Rejoindre le Groupe WhatsApp" android:textColor="#25D366" android:textSize="13sp" android:textStyle="bold" android:paddingVertical="8dp"/>
-        <TextView android:id="@+id/menuSettings" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🛠 Paramètres (DNS / UDP Ports)" android:textColor="#DDDDDD" android:textSize="13sp" android:paddingVertical="8dp"/>
-        <TextView android:id="@+id/menuAbout" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ℹ À propos" android:textColor="#DDDDDD" android:textSize="13sp" android:paddingVertical="8dp"/>
-
-    </LinearLayout>
-
-</androidx.drawerlayout.widget.DrawerLayout>
+</LinearLayout>
