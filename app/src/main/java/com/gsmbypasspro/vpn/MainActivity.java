@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final int VPN_REQUEST_CODE = 1337;
     private static final int PICK_CONFIG_FILE = 100;
     private TextView tvLogs;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        int themeMode = prefs.getInt("theme_mode", 2);
+        int themeMode = prefs.getInt("theme_mode", 0);
         if (themeMode == 0) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         else if (themeMode == 1) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -56,26 +55,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selected = protocols[position];
-                appendLog("[Protocole] Actif : " + selected);
+                appendLog("[Protocole] " + selected);
                 if (selected.contains("SSH")) {
                     etTargetServer.setText("localhost:22");
                     etUuid.setText("username:password");
                     etPayload.setText("[method] [host_port] [protocol][crlf]Host: [host][crlf]");
-                } else if (selected.contains("V2Ray")) {
-                    etTargetServer.setText("edgargsm.duckdns.org:443");
-                    etUuid.setText("1f6b2a28-a0ab-4100-b7bc-8dd30710ea6c");
-                    etPayload.setText("Websocket SNI / Path actif");
                 } else {
-                    etTargetServer.setText("proxy.server.com:443");
-                    etUuid.setText("cle-securisee-123");
-                    etPayload.setText("Mode tunnel actif");
+                    etTargetServer.setText("edgargsm.duckdns.org:443");
+                    etUuid.setText("uuid-standard");
+                    etPayload.setText("Websocket TLS actif");
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        appendLog("[Système] GSM BYPASS-PRO VPN initialisé.");
+        appendLog("[Système] GSM BYPASS-PRO VPN prêt.");
         btnConnect.setOnClickListener(v -> toggleConnection());
     }
 
@@ -99,16 +94,16 @@ public class MainActivity extends AppCompatActivity {
             Intent serviceIntent = new Intent(this, GsmVpnService.class);
             startService(serviceIntent);
 
-            appendLog("[Tunnel] Connexion vers " + etTargetServer.getText().toString() + "...");
+            appendLog("[Tunnel] Connexion vers " + etTargetServer.getText().toString());
             appendLog("[TUN] Interface réseau virtuelle active 🚀");
-            appendLog("[Succès] VPN démarré avec succès !");
+            appendLog("[Succès] VPN connecté !");
             btnConnect.setText("Arrêter");
             isConnected = true;
         } else if (requestCode == PICK_CONFIG_FILE && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
             if (uri != null) {
                 appendLog("[Config] Fichier chargé : " + uri.getLastPathSegment());
-                Toast.makeText(this, "Configuration importée avec succès !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Configuration importée !", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == VPN_REQUEST_CODE) {
             Toast.makeText(this, "Permission VPN refusée.", Toast.LENGTH_SHORT).show();
@@ -149,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_about) {
             new AlertDialog.Builder(this)
                     .setTitle("À propos")
-                    .setMessage("GSM BYPASS-PRO VPN v1.0\n\nMoteur de tunneling professionnel.\nCopyright (c) 2026.")
+                    .setMessage("GSM BYPASS-PRO VPN v1.0\n\nMoteur VPN professionnel.\nCopyright (c) 2026.")
                     .setPositiveButton("OK", null)
                     .show();
             return true;

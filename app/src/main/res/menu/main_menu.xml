@@ -1,23 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:title="Configuration">
         <menu>
             <item android:id="@+id/action_import" android:title="Importer la configuration" />
             <item android:id="@+id/action_export" android:title="Exporter la configuration" />
         </menu>
     </item>
-
-    <item android:title="Type de Tunnel">
-        <menu>
-            <item android:id="@+id/type_ssh" android:title="Shell sécurisé (SSH)" />
-            <item android:id="@+id/type_v2ray" android:title="V2Ray / Xray" />
-            <item android:id="@+id/type_hysteria" android:title="Hysteria" />
-            <item android:id="@+id/type_dnstt" android:title="DNSTT (DNS)" />
-            <item android:id="@+id/type_shadowsocks" android:title="Shadowsocks" />
-        </menu>
-    </item>
-
     <item android:id="@+id/action_settings" android:title="Paramètres" />
     <item android:id="@+id/action_about" android:title="À propos" />
-
 </menu>

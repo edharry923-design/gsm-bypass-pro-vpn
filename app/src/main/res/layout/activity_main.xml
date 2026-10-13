@@ -1,154 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawerLayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#121212">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F5F5">
 
-    <!-- Contenu Principal -->
-    <LinearLayout
+    <Spinner
+        android:id="@+id/spinnerProtocol"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etTargetServer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#FFFFFF"
+        android:hint="Serveur cible : Port"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#888888"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etUuid"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#FFFFFF"
+        android:hint="UUID / Mot de passe / Utilisateur"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#888888"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/etPayload"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#FFFFFF"
+        android:hint="Payload / SNI / Chemin WebSocket"
+        android:padding="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#888888"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:backgroundTint="#00838F"
+        android:text="Démarrer"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="GSM BYPASS-PRO VPN"
-            android:textColor="#00E676"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Choix du Protocole -->
-        <Spinner
-            android:id="@+id/spinnerProtocol"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="#1E1E1E"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Champs de configuration -->
-        <EditText
-            android:id="@+id/etTargetServer"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:background="#1E1E1E"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#888888"
-            android:hint="edgargsm.duckdns.org:443"
-            android:padding="8dp"
-            android:textSize="13sp"
-            android:layout_marginBottom="6dp" />
-
-        <EditText
-            android:id="@+id/etUuid"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:background="#1E1E1E"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#888888"
-            android:hint="UUID / Clé d'authentification"
-            android:padding="8dp"
-            android:textSize="13sp"
-            android:layout_marginBottom="6dp" />
-
-        <EditText
-            android:id="@+id/etPayload"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="#1E1E1E"
-            android:textColor="#00E676"
-            android:textColorHint="#888888"
-            android:hint="Payload custom..."
-            android:padding="8dp"
-            android:textSize="12sp"
-            android:gravity="top"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Bouton de Connexion -->
-        <Button
-            android:id="@+id/btnConnect"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="CONNECT"
-            android:textStyle="bold"
-            android:backgroundTint="#00E676"
-            android:textColor="#000000"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Console de Logs -->
+        android:background="#1E1E1E"
+        android:padding="8dp">
         <TextView
             android:id="@+id/tvLogs"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#1A1A1A"
+            android:layout_height="wrap_content"
+            android:text="[System] Prêt...\n"
             android:textColor="#00E676"
-            android:padding="8dp"
-            android:textSize="11sp"
-            android:fontFamily="monospace"
-            android:scrollbars="vertical" />
+            android:textSize="12sp"
+            android:fontFamily="monospace" />
+    </ScrollView>
 
-    </LinearLayout>
-
-    <!-- Menu Latéral -->
-    <LinearLayout
-        android:layout_width="280dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="#1E1E1E"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MENU PRO"
-            android:textColor="#00E676"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp" />
-
-        <TextView
-            android:id="@+id/menuIp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="🌐 Configuration IP"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:padding="12dp" />
-
-        <TextView
-            android:id="@+id/menuServers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="🔑 VLess Config (.gsm)"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:padding="12dp" />
-
-        <TextView
-            android:id="@+id/menuSettings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="⚙️ Paramètres &amp; HWID"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:padding="12dp" />
-
-        <TextView
-            android:id="@+id/menuAbout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ℹ️ À propos"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:padding="12dp" />
-
-    </LinearLayout>
-
-</androidx.drawerlayout.widget.DrawerLayout>
+</LinearLayout>

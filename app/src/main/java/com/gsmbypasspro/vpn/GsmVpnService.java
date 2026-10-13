@@ -7,7 +7,6 @@ import android.util.Log;
 import java.io.IOException;
 
 public class GsmVpnService extends VpnService {
-
     private static final String TAG = "GsmVpnService";
     private ParcelFileDescriptor mInterface;
     private boolean isRunning = false;
@@ -24,20 +23,17 @@ public class GsmVpnService extends VpnService {
 
     private void startVpn() {
         if (isRunning) return;
-        
         try {
-            // Configuration de l'interface TUN virtuelle
             Builder builder = new Builder();
             builder.setSession("GSM BYPASS-PRO VPN")
                    .addAddress("10.0.0.2", 24)
                    .addDnsServer("1.1.1.1")
-                   .addRoute("0.0.0.0", 0); // Route tout le trafic internet du téléphone dans le VPN
-
+                   .addRoute("0.0.0.0", 0);
             mInterface = builder.establish();
             isRunning = true;
-            Log.d(TAG, "Interface VPN TUN établie avec succès.");
+            Log.d(TAG, "Interface VPN TUN établie.");
         } catch (Exception e) {
-            Log.e(TAG, "Erreur lors du démarrage du VPN", e);
+            Log.e(TAG, "Erreur VPN", e);
         }
     }
 
@@ -48,11 +44,10 @@ public class GsmVpnService extends VpnService {
                 mInterface = null;
             }
         } catch (IOException e) {
-            Log.e(TAG, "Erreur lors de la fermeture du VPN", e);
+            Log.e(TAG, "Erreur fermeture VPN", e);
         }
         isRunning = false;
         stopSelf();
-        Log.d(TAG, "VPN arrêté.");
     }
 
     @Override

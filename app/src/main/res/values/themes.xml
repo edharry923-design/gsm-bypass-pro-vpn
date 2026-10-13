@@ -1,17 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Thème Clair / Light -->
     <style name="Theme.GsmBypassPro.Light" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#00838F</item>
         <item name="colorPrimaryDark">#005B60</item>
         <item name="colorAccent">#00E676</item>
-        <item name="android:windowBackground">#FFFFFF</item>
-    </style>
-
-    <!-- Thème Sombre / Dark -->
-    <style name="Theme.GsmBypassPro.Dark" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="colorPrimary">#1E1E1E</item>
-        <item name="colorPrimaryDark">#121212</item>
-        <item name="colorAccent">#00E676</item>
-        <item name="android:windowBackground">#121212</item>
+        <item name="android:windowBackground">#F5F5F5</item>
     </style>
 </resources>
