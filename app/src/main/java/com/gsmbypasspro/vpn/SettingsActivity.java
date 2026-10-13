@@ -15,22 +15,28 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Paramètres");
+        }
+
         TextView tvHwid = findViewById(R.id.tvHardwareId);
         String hwid = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         if (tvHwid != null) {
             tvHwid.setText(hwid);
         }
 
+        // Clic sur le sélecteur de thème
         findViewById(R.id.layoutTheme).setOnClickListener(v -> showThemeDialog());
     }
 
     private void showThemeDialog() {
-        String[] themes = {"Système", "Clair", "Sombre"};
+        String[] themes = {"Système par défaut", "Mode Clair (Light)", "Mode Sombre (Dark)"};
         SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        int currentTheme = prefs.getInt("theme_mode", 2); // 2 par défaut (Dark)
+        int currentTheme = prefs.getInt("theme_mode", 2); // Sombre par défaut
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Choisir le Thème");
+        builder.setTitle("Changer le Thème de l'application");
         builder.setSingleChoiceItems(themes, currentTheme, (dialog, which) -> {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("theme_mode", which);
@@ -43,10 +49,17 @@ public class SettingsActivity extends AppCompatActivity {
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
+
             dialog.dismiss();
-            recreate();
+            recreate(); // Applique le thème instantanément
         });
         builder.setNegativeButton("Annuler", null);
         builder.create().show();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

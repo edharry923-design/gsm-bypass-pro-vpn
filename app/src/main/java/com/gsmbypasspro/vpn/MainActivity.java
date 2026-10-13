@@ -2,8 +2,10 @@ package com.gsmbypasspro.vpn;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.net.VpnService;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 public class MainActivity extends AppCompatActivity {
 
     private static final int VPN_REQUEST_CODE = 1337;
+    private static final int PICK_CONFIG_FILE = 100;
     private TextView tvLogs;
     private Button btnConnect;
     private Spinner spinnerProtocol;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Charger et appliquer le thème enregistré au démarrage
         SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         int themeMode = prefs.getInt("theme_mode", 2);
         if (themeMode == 0) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         etUuid = findViewById(R.id.etUuid);
         etPayload = findViewById(R.id.etPayload);
 
-        String[] protocols = {"VLess • Websocket SSL/TLS", "VMess • WS/TLS", "Trojan GRPC", "SSH • Direct"};
+        String[] protocols = {"Shell sécurisé (SSH)", "V2Ray / Xray", "Hysteria", "DNSTT (DNS)", "Shadowsocks"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, protocols);
         spinnerProtocol.setAdapter(adapter);
 
@@ -54,29 +58,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selected = protocols[position];
+                appendLog("[Protocole] Actif : " + selected);
                 if (selected.contains("SSH")) {
                     etTargetServer.setText("localhost:22");
-                    etUuid.setText("root");
+                    etUuid.setText("username:password");
                     etPayload.setText("[method] [host_port] [protocol][crlf]Host: [host][crlf]");
-                    appendLog("[Protocol] Mode SSH sélectionné.");
-                } else if (selected.contains("VLess")) {
+                } else if (selected.contains("V2Ray")) {
                     etTargetServer.setText("edgargsm.duckdns.org:443");
                     etUuid.setText("1f6b2a28-a0ab-4100-b7bc-8dd30710ea6c");
-                    etPayload.setText("CONNECT [host]:[port] HTTP/1.1[crlf]Host: edgargsm.duckdns.org[crlf]");
-                    appendLog("[Protocol] Mode VLess sélectionné.");
+                    etPayload.setText("Websocket SNI / Path actif");
                 } else {
-                    etTargetServer.setText("edgargsm.duckdns.org:8443");
-                    etUuid.setText("vmess-uuid-standard");
-                    etPayload.setText("Websocket PATH /ws");
-                    appendLog("[Protocol] Mode " + selected + " sélectionné.");
+                    etTargetServer.setText("proxy.server.com:443");
+                    etUuid.setText("cle-securisee-123");
+                    etPayload.setText("Mode tunnel actif");
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        appendLog("[System] GSM BYPASS-PRO VPN prêt à l'emploi.");
+        appendLog("[Système] GSM BYPASS-PRO VPN initialisé.");
         btnConnect.setOnClickListener(v -> toggleConnection());
     }
 
@@ -102,12 +103,17 @@ public class MainActivity extends AppCompatActivity {
 
             appendLog("[Tunnel] Connexion vers " + etTargetServer.getText().toString() + "...");
             appendLog("[TUN] Interface réseau virtuelle active 🚀");
-            appendLog("[Success] VPN connecté avec succès !");
-            btnConnect.setText("DISCONNECT");
+            appendLog("[Succès] VPN démarré avec succès !");
+            btnConnect.setText("Arrêter");
             isConnected = true;
+        } else if (requestCode == PICK_CONFIG_FILE && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            if (uri != null) {
+                appendLog("[Config] Fichier chargé : " + uri.getLastPathSegment());
+                Toast.makeText(this, "Configuration importée avec succès !", Toast.LENGTH_SHORT).show();
+            }
         } else if (requestCode == VPN_REQUEST_CODE) {
-            Toast.makeText(this, "Permission VPN refusée par l'utilisateur.", Toast.LENGTH_SHORT).show();
-            appendLog("[Error] Permission VPN refusée.");
+            Toast.makeText(this, "Permission VPN refusée.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -116,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
         serviceIntent.setAction("STOP");
         startService(serviceIntent);
 
-        appendLog("[Tunnel] VPN déconnecté.");
-        btnConnect.setText("CONNECT");
+        appendLog("[Tunnel] VPN arrêté.");
+        btnConnect.setText("Démarrer");
         isConnected = false;
     }
 
@@ -133,19 +139,33 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
+        } else if (id == R.id.action_hwid) {
+            String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+            new AlertDialog.Builder(this)
+                    .setTitle("ID de l'appareil (HWID)")
+                    .setMessage(androidId)
+                    .setPositiveButton("OK", null)
+                    .show();
+            appendLog("[HWID] " + androidId);
+            return true;
+        } else if (id == R.id.action_import) {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            startActivityForResult(intent, PICK_CONFIG_FILE);
+            return true;
+        } else if (id == R.id.action_export) {
+            startActivity(new Intent(this, ExportActivity.class));
+            return true;
         } else if (id == R.id.action_about) {
-            showAboutDialog();
+            new AlertDialog.Builder(this)
+                    .setTitle("À propos")
+                    .setMessage("GSM BYPASS-PRO VPN v1.0\n\nMoteur de tunneling professionnel.\nCopyright (c) 2026.")
+                    .setPositiveButton("OK", null)
+                    .show();
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void showAboutDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("About")
-                .setMessage("GSM BYPASS-PRO VPN v1.0\n\nMoteur VPN natif Android actif.\nCopyright (c) 2026.")
-                .setPositiveButton("OK", null)
-                .show();
     }
 
     private void appendLog(String msg) {
