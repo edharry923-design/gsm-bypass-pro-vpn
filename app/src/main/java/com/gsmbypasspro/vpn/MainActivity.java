@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import com.gsmbypasspro.vpn.core.TunnelEngine;
 
 public class MainActivity extends AppCompatActivity {
     private static final int VPN_REQUEST_CODE = 1337;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinnerProtocol;
     private EditText etTargetServer, etUuid, etPayload;
     private boolean isConnected = false;
+    private TunnelEngine tunnelEngine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         etTargetServer = findViewById(R.id.etTargetServer);
         etUuid = findViewById(R.id.etUuid);
         etPayload = findViewById(R.id.etPayload);
+        tunnelEngine = new TunnelEngine();
 
         String[] protocols = {"Shell sécurisé (SSH)", "V2Ray / Xray", "Hysteria", "DNSTT (DNS)", "Shadowsocks"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, protocols);
@@ -55,22 +58,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selected = protocols[position];
-                appendLog("[Protocole] " + selected);
+                appendLog("[Protocole] Mode : " + selected);
                 if (selected.contains("SSH")) {
                     etTargetServer.setText("localhost:22");
-                    etUuid.setText("username:password");
-                    etPayload.setText("[method] [host_port] [protocol][crlf]Host: [host][crlf]");
+                    etUuid.setText("root:password");
+                    etPayload.setText("CONNECT [host_port] HTTP/1.1[crlf]Host: [host][crlf][crlf]");
                 } else {
                     etTargetServer.setText("edgargsm.duckdns.org:443");
-                    etUuid.setText("uuid-standard");
-                    etPayload.setText("Websocket TLS actif");
+                    etUuid.setText("1f6b2a28-a0ab-4100-b7bc-8dd30710ea6c");
+                    etPayload.setText("Websocket SNI / Path chiffré");
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        appendLog("[Système] GSM BYPASS-PRO VPN prêt.");
+        appendLog("[Système] GSM BYPASS-PRO VPN prêt à l'emploi.");
         btnConnect.setOnClickListener(v -> toggleConnection());
     }
 
@@ -91,31 +94,58 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VPN_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Lancer le service TUN virtuel
             Intent serviceIntent = new Intent(this, GsmVpnService.class);
             startService(serviceIntent);
 
-            appendLog("[Tunnel] Connexion vers " + etTargetServer.getText().toString());
-            appendLog("[TUN] Interface réseau virtuelle active 🚀");
-            appendLog("[Succès] VPN connecté !");
-            btnConnect.setText("Arrêter");
-            isConnected = true;
+            // Démarrer le moteur de tunneling et l'injection de payload
+            String server = etTargetServer.getText().toString();
+            String payload = etPayload.getText().toString();
+
+            tunnelEngine.startConnection(server, payload, new TunnelEngine.TunnelCallback() {
+                @Override
+                public void onLog(String message) {
+                    runOnUiThread(() -> appendLog(message));
+                }
+
+                @Override
+                public void onSuccess() {
+                    runOnUiThread(() -> {
+                        appendLog("[TUN] Interface réseau virtuelle active 🚀");
+                        appendLog("[Succès] Tunnel haute vitesse établi !");
+                        btnConnect.setText("Arrêter");
+                        isConnected = true;
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    runOnUiThread(() -> {
+                        appendLog(error);
+                        stopVpnService();
+                    });
+                }
+            });
+
         } else if (requestCode == PICK_CONFIG_FILE && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
             if (uri != null) {
                 appendLog("[Config] Fichier chargé : " + uri.getLastPathSegment());
-                Toast.makeText(this, "Configuration importée !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Configuration importée avec succès !", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == VPN_REQUEST_CODE) {
             Toast.makeText(this, "Permission VPN refusée.", Toast.LENGTH_SHORT).show();
+            appendLog("[Erreur] Permission VPN refusée par l'utilisateur.");
         }
     }
 
     private void stopVpnService() {
+        tunnelEngine.stopConnection();
         Intent serviceIntent = new Intent(this, GsmVpnService.class);
         serviceIntent.setAction("STOP");
         startService(serviceIntent);
 
-        appendLog("[Tunnel] VPN arrêté.");
+        appendLog("[Tunnel] Connexion fermée.");
         btnConnect.setText("Démarrer");
         isConnected = false;
     }
@@ -144,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.action_about) {
             new AlertDialog.Builder(this)
                     .setTitle("À propos")
-                    .setMessage("GSM BYPASS-PRO VPN v1.0\n\nMoteur VPN professionnel.\nCopyright (c) 2026.")
+                    .setMessage("GSM BYPASS-PRO VPN v1.0\n\nMoteur de tunneling professionnel haute vitesse.\nCopyright (c) 2026.")
                     .setPositiveButton("OK", null)
                     .show();
             return true;
