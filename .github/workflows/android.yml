@@ -20,11 +20,13 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: 🔑 Rendre gradlew exécutable
-      run: chmod +x gradlew
+    - name: 🐘 Forcer Gradle 7.5
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: '7.5'
 
-    - name: 🏗️ Compiler l'APK Debug avec Wrapper
-      run: ./gradlew assembleDebug --no-daemon
+    - name: 🏗️ Compiler l'APK Debug
+      run: gradle assembleDebug
 
     - name: 📦 Télécharger l'artefact APK
       uses: actions/upload-artifact@v4
