@@ -1,6 +1,8 @@
 package com.gsmbypasspro.vpn;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.net.VpnService;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import com.gsmbypasspro.vpn.core.ConfigManager;
 import com.gsmbypasspro.vpn.core.TunnelEngine;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +22,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static final int VPN_REQUEST_CODE = 1337;
+    private static final int PICK_CONFIG_FILE = 100;
     private TextView tvLogs;
     private Button btnConnect;
     private EditText etTargetServer, etPayload;
@@ -31,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("GSM BYPASS-PRO");
+            getSupportActionBar().setTitle("GSM BYPASS-PRO VPN");
         }
 
         tvLogs = findViewById(R.id.tvLogs);
@@ -40,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         etPayload = findViewById(R.id.etPayload);
         tunnelEngine = new TunnelEngine();
 
-        // Afficher les informations de l'appareil au démarrage (exactement comme DarkTunnel)
         String timeStr = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
         String deviceInfo = String.format("[%s] Running on %s %s (%s), Android %s (API %s). Version 1.0.0 Build 1.",
                 timeStr, Build.MANUFACTURER, Build.MODEL, Build.DEVICE, Build.VERSION.RELEASE, Build.VERSION.SDK_INT);
@@ -71,13 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
             String server = etTargetServer.getText().toString().trim();
             String payload = etPayload.getText().toString().trim();
+            if (server.isEmpty()) server = "localhost:22";
 
-            if (server.isEmpty()) {
-                server = "localhost:22";
-            }
-
-            appendLog("[Engine] Initialisation de la connexion vers " + server + "...");
-            
+            appendLog("[Engine] Connexion vers " + server + "...");
             tunnelEngine.startConnection(server, payload, new TunnelEngine.TunnelCallback() {
                 @Override
                 public void onLog(String message) {
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess() {
                     runOnUiThread(() -> {
                         appendLog("[TUN] Interface réseau virtuelle active 🚀");
-                        appendLog("[Succès] Tunnel établi avec succès !");
+                        appendLog("[Succès] Tunnel haute vitesse établi !");
                         btnConnect.setText("DISCONNECT");
                         isConnected = true;
                     });
@@ -103,9 +102,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+        } else if (requestCode == PICK_CONFIG_FILE && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            if (uri != null) {
+                ConfigManager.ConfigProfile profile = ConfigManager.parseConfigFile(this, uri);
+                if (ConfigManager.validateConfig(this, profile)) {
+                    etTargetServer.setText(profile.server);
+                    etPayload.setText(profile.payload);
+                    appendLog("[Config] Fichier chargé et validé avec succès !");
+                    Toast.makeText(this, "Configuration chargée !", Toast.LENGTH_SHORT).show();
+                } else {
+                    appendLog("[Erreur] Configuration refusée (Expirée ou HWID invalide).");
+                    Toast.makeText(this, "Erreur : Configuration expirée ou non autorisée.", Toast.LENGTH_LONG).show();
+                }
+            }
         } else if (requestCode == VPN_REQUEST_CODE) {
             Toast.makeText(this, "Permission VPN refusée.", Toast.LENGTH_SHORT).show();
-            appendLog("[Erreur] Permission VPN refusée.");
         }
     }
 
@@ -133,7 +145,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         } else if (id == R.id.action_import) {
-            Toast.makeText(this, "Importation de configuration .gsm", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            startActivityForResult(intent, PICK_CONFIG_FILE);
             return true;
         } else if (id == R.id.action_export) {
             startActivity(new Intent(this, ExportActivity.class));
