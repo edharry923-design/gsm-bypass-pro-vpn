@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void toggleConnection() {
         if (!isConnected) {
-            // Demande l'autorisation système Android pour lancer le VpnService
             Intent intent = VpnService.prepare(this);
             if (intent != null) {
                 startActivityForResult(intent, VPN_REQUEST_CODE);
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VPN_REQUEST_CODE && resultCode == RESULT_OK) {
-            // L'utilisateur a autorisé le VPN, on lance le service TUN réel
             Intent serviceIntent = new Intent(this, GsmVpnService.class);
             startService(serviceIntent);
 
@@ -108,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             btnConnect.setText("DISCONNECT");
             isConnected = true;
         } else if (requestCode == VPN_REQUEST_CODE) {
-            Toast.lez(this, "Permission VPN refusée par l'utilisateur.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Permission VPN refusée par l'utilisateur.", Toast.LENGTH_SHORT).show();
             appendLog("[Error] Permission VPN refusée.");
         }
     }
