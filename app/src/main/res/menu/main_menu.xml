@@ -1,53 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Config">
+    <item android:title="Configuration">
         <menu>
-            <item android:title="Import">
-                <menu>
-                    <item android:id="@+id/action_import_clipboard" android:title="Clipboard" />
-                    <item android:id="@+id/action_import_file" android:title="File (.gsm)" />
-                </menu>
-            </item>
-            <item android:title="Export">
-                <menu>
-                    <item android:id="@+id/action_export_clipboard" android:title="Clipboard" />
-                    <item android:id="@+id/action_export_file" android:title="File (.gsm)" />
-                </menu>
-            </item>
-            <item android:title="Other">
-                <menu>
-                    <item android:id="@+id/action_backup" android:title="Backup" />
-                    <item android:id="@+id/action_restore" android:title="Restore" />
-                </menu>
-            </item>
+            <item android:id="@+id/action_import" android:title="Importer la configuration" />
+            <item android:id="@+id/action_export" android:title="Exporter la configuration" />
         </menu>
     </item>
 
-    <item android:title="Tunnel Type">
+    <item android:title="Type de Tunnel">
         <menu>
-            <item android:id="@+id/type_ssh" android:title="SSH" />
-            <item android:id="@+id/type_dnstt" android:title="SSH Through Dnstt" />
-            <item android:id="@+id/type_vmess" android:title="VMess" />
-            <item android:id="@+id/type_vless" android:title="VLess" />
-            <item android:id="@+id/type_trojan" android:title="Trojan" />
+            <item android:id="@+id/type_ssh" android:title="Shell sécurisé (SSH)" />
+            <item android:id="@+id/type_v2ray" android:title="V2Ray / Xray" />
+            <item android:id="@+id/type_hysteria" android:title="Hysteria" />
+            <item android:id="@+id/type_dnstt" android:title="DNSTT (DNS)" />
             <item android:id="@+id/type_shadowsocks" android:title="Shadowsocks" />
-            <item android:id="@+id/type_v2ray" android:title="V2Ray" />
         </menu>
     </item>
 
-    <item android:title="Community">
-        <menu>
-            <item android:id="@+id/comm_channel" android:title="Telegram Channel" />
-            <item android:id="@+id/comm_group" android:title="Telegram Group" />
-        </menu>
-    </item>
-
-    <item
-        android:id="@+id/action_settings"
-        android:title="Settings" />
-
-    <item
-        android:id="@+id/action_about"
-        android:title="About" />
+    <item android:id="@+id/action_settings" android:title="Paramètres" />
+    <item android:id="@+id/action_about" android:title="À propos" />
 
 </menu>
