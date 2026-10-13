@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Charger et appliquer le thème enregistré au démarrage
         SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         int themeMode = prefs.getInt("theme_mode", 2);
         if (themeMode == 0) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -138,15 +137,6 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
-            return true;
-        } else if (id == R.id.action_hwid) {
-            String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-            new AlertDialog.Builder(this)
-                    .setTitle("ID de l'appareil (HWID)")
-                    .setMessage(androidId)
-                    .setPositiveButton("OK", null)
-                    .show();
-            appendLog("[HWID] " + androidId);
             return true;
         } else if (id == R.id.action_import) {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
